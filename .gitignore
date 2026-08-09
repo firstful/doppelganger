@@ -1,0 +1,9 @@
+node_modules/
+profiles/
+venv/
+screenshot.png
+package-lock.json
+*.pyc
+__pycache__/
+/tmp/
+best-matches.png

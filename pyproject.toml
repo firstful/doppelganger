@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "desktopx"
+version = "0.1.0"
+description = "Cross-platform desktop window manipulation + human-style input (X11 xdotool, Wayland ydotool, Windows/macOS pyautogui), with tesseract OCR glue."
+requires-python = ">=3.8"
+license = { text = "MIT" }
+
+[project.optional-dependencies]
+windows = ["pyautogui", "pywin32"]
+mac = ["pyautogui"]
+ocr = ["pytesseract"]
+
+[tool.setuptools]
+packages = ["desktopx"]
