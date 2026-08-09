@@ -1,7 +1,8 @@
 # Architecture Plan
 
 The system is four layers. Each layer is a Python package under
-`stealth-browser/` with a small, stable API. The lower layers know nothing
+`stealth-browser/` (project codename: **doppelganger**) with a small, stable
+API. The lower layers know nothing
 about the upper layers; the upper layers consume the lower ones through
 plain function calls.
 

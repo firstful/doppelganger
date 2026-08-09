@@ -1,8 +1,9 @@
-# stealth-browser
+# doppelganger
 
-Cross-platform desktop + browser automation without CDP, without DOM, without
-selectors. The agent sees a screenshot, understands it via OCR + local vision
-ML, and interacts through humanized mouse/keyboard input.
+An indistinguishable human-like operator: cross-platform desktop + browser
+automation without CDP, without DOM, without selectors. The agent sees a
+screenshot, understands it via OCR + local vision ML, and interacts through
+humanized mouse/keyboard input — a stand-in that behaves like the real user.
 
 Works with any app the operator can see and click. Primary target: native
 Chromium (non-CDP, anti-bot resistant) on a headless Xvfb display, driven
