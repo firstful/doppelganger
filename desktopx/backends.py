@@ -47,6 +47,9 @@ class BaseDriver:
     def type(self, text):
         raise NotImplementedError
 
+    def press(self, combo):
+        raise NotImplementedError
+
     def scroll(self, amount):
         raise NotImplementedError
 
@@ -152,6 +155,9 @@ class X11Driver(BaseDriver):
     def type(self, text):
         _run(["xdotool", "type", "--delay", "40", text], env=self._env())
 
+    def press(self, combo):
+        _run(["xdotool", "key", combo], env=self._env())
+
     def scroll(self, amount):
         _run(["xdotool", "click", "--repeat", str(abs(amount)),
               "5" if amount > 0 else "4"], env=self._env())
@@ -218,6 +224,9 @@ class WaylandDriver(BaseDriver):
 
     def type(self, text):
         _run(["ydotool", "type", text], env=self._env())
+
+    def press(self, combo):
+        _run(["ydotool", "key", combo], env=self._env())
 
     def scroll(self, amount):
         y = -1 * amount if amount > 0 else amount
