@@ -108,8 +108,12 @@ def load_image(path):
     return Image.open(path).convert("RGB")
 
 
-def perceive(path, with_ml=True):
-    """Run OCR + optional ML on a screenshot and return a Perception."""
+def perceive(path, with_ml=True, max_ml_targets=8):
+    """Run OCR + optional ML on a screenshot and return a Perception.
+
+    with_ml: add an ML dense caption; classify at most `max_ml_targets`
+    OCR targets (cheap safety cap — each is a separate CPU query).
+    """
     img = load_image(path)
     w, h = img.size
     words = ocr_words(path)
@@ -129,19 +133,22 @@ def perceive(path, with_ml=True):
         else:
             try:
                 p.description = model.describe(img)
-                p.targets = _enrich_targets(p.targets, img)
             except Exception as e:  # never let ML break perception
                 p.error = f"ML failed: {e}"
+            if max_ml_targets > 0:
+                p.targets = _enrich_targets(p.targets, img, max_ml_targets)
     return p
 
 
-def _enrich_targets(targets, img):
-    """Classify each target crop with ML (best effort, batched per image)."""
+def _enrich_targets(targets, img, limit):
+    """Classify each target crop with ML (best effort, capped)."""
     model = ml.get_model()
     if model is None:
         return targets
     enriched = []
-    for t in targets:
+    # Classify highest-confidence targets first (keep total CPU cost bounded).
+    ordered = sorted(targets, key=lambda t: t.conf, reverse=True)
+    for t in ordered[:limit]:
         box = t.box
         crop = img.crop((box["left"], box["top"],
                          box["left"] + box["w"], box["top"] + box["h"]))
@@ -150,4 +157,6 @@ def _enrich_targets(targets, img):
         except Exception:
             kind = "unknown"
         enriched.append(Target(kind, box, t.text, t.conf, "ml"))
+    # Keep remaining OCR targets untouched.
+    enriched.extend(t for t in targets if t not in ordered[:limit])
     return enriched
