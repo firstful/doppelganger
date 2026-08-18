@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Macro Target - Shipment Intake</title>
+<style>
+  /* Layout scales with the viewport so a recorded macro's *relative* click
+     fractions stay stable across resolutions while its *absolute* pixel
+     targets do NOT. Vertical form: each label sits on its own row ABOVE its
+     input (classic, realistic, and OCR-clean — nothing merges with the
+     label). The input, carrying a distinctive placeholder, sits below the
+     label. A macro anchors each field to its LABEL and records the click as
+     an offset fraction of the label box; replay re-finds the label (which
+     never changes) and lands in the field at any scale. Light theme: the
+     doppelganger OCR stack (grayscale/color/inverse 3-pass) is tuned for
+     light bg + dark text. */
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+         background: #eef1f5; color: #1a2332; }
+  .wrap { min-height: 100vh; display: flex; align-items: center;
+          justify-content: center; padding: 4vh 4vw; }
+  .card { width: 56%; max-width: 640px; min-width: 340px;
+          background: #ffffff; border: 1px solid #d6dbe4; border-radius: 12px;
+          padding: 3vh 3vw; box-shadow: 0 6px 22px rgba(16,31,52,0.08); }
+  .card h1 { font-size: clamp(18px, 2.6vw, 26px); margin-bottom: 0.4em; }
+  .card p.sub { font-size: clamp(12px, 1.4vw, 14px); color: #5a6b7c;
+                margin-bottom: 1.6em; }
+  /* Vertical: label on its own row, input below it. */
+  .field { margin-bottom: 1.3em; }
+  .field label { display: block; font-size: clamp(13px, 1.7vw, 15px);
+                 font-weight: 600; color: #223050; margin-bottom: 0.4em; }
+  .field input { font-size: clamp(14px, 1.8vw, 16px); padding: 0.55em 0.7em;
+                 border: 1px solid #c2cad6; border-radius: 6px;
+                 background: #fbfcfe; color: #111; width: 100%; }
+  .field input::placeholder { color: #545e6e; font-size: 0.92em; }
+  .field input:focus { outline: 2px solid #2563eb; border-color: #2563eb; }
+  button { margin-top: 0.6em; font-size: clamp(14px, 1.7vw, 16px);
+           font-weight: 700; padding: 0.6em 1.8em; background: #2563eb;
+           color: #fff; border: none; border-radius: 6px; cursor: pointer;
+           float: right; }
+  button:hover { background: #1d4ed8; }
+  #result { clear: both; margin-top: 1.2em; font-size: clamp(12px,1.6vw,15px);
+            min-height: 1.4em; font-weight: 600; }
+  #result.ok { color: #0f7b3d; }
+  #result.err { color: #c62828; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Shipment Intake</h1>
+      <p class="sub">Record the incoming load. All fields required.</p>
+      <div class="field">
+        <label for="fname">Shipper name</label>
+        <input id="fname" autocomplete="off" placeholder="Acme Trucking Co.">
+      </div>
+      <div class="field">
+        <label for="femail">Contact email</label>
+        <input id="femail" autocomplete="off" placeholder="ops@truckcloud.io">
+      </div>
+      <div class="field">
+        <label for="fcity">Destination city</label>
+        <input id="fcity" autocomplete="off" placeholder="Columbus OH">
+      </div>
+      <div>
+        <button type="submit" id="go">Submit Load</button>
+        <div id="result"></div>
+      </div>
+      <div id="ready">READY</div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('go').addEventListener('click', () => {
+      const get = (id) => document.getElementById(id).value.trim();
+      const name = get('fname'), email = get('femail'), city = get('fcity');
+      const r = document.getElementById('result');
+      if (!name || !email || !city) {
+        r.className = 'err';
+        r.textContent = 'INCOMPLETE';
+        return;
+      }
+      r.className = 'ok';
+      r.textContent = 'Received: ' + name + ' | ' + email + ' | ' + city;
+    });
+    const r = document.createElement('div');
+    r.id = 'ready';
+    r.textContent = 'READY';
+    r.style.cssText = 'position:fixed;bottom:4px;right:4px;font-size:13px;color:#8a909c;';
+    document.body.appendChild(r);
+  </script>
+</body>
+</html>
