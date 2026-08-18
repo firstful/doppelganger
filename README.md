@@ -22,7 +22,7 @@ headedly.
 | Layer | Package | Responsibility |
 |-------|---------|----------------|
 | 1. Desktop | `desktopx` | Windows, capture, input, OCR (X11/Wayland/Win/macOS) |
-| 2. Vision | `vision` | OCR rects + local ML (Florence-2): click targets, text, descriptions |
+| 2. Vision | `vision` | tesseract OCR rects + local ML (Florence-2-base) click-targets & captions; `price.py` recovers superscript-cents amounts ($12.98) that generic OCR mangles |
 | 3. Agent | `agent` | Prompt -> intent -> perceive/match/act/verify |
 | 4. Input | `desktopx.input` | Humanized mouse/keyboard at the lowest level |
 

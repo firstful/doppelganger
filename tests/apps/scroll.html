@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Operator Logs</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: #f4f5f7; color: #1a1a2e; }
+  header { background: #fff; border-bottom: 1px solid #ddd; padding: 12px 24px;
+           display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 18px; font-weight: 600; }
+  .tag { background: #4361ee; color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 10px; }
+  #feed { height: calc(100vh - 54px); overflow-y: scroll; padding: 12px 24px; }
+  .item { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 12px 16px; margin-bottom: 10px;
+          display: flex; justify-content: space-between; align-items: center; }
+  .item .name { font-size: 15px; font-weight: 600; }
+  .item .meta { font-size: 12px; color: #888; }
+  .sev { font-size: 13px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+  .sev.info { color: #2a9d8f; background: #e6f4f2; }
+  .sev.warn { color: #e76f51; background: #fdeee8; }
+  .sev.err  { color: #e63946; background: #fde8e8; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Operator Logs</h1>
+    <span class="tag">Live stream</span>
+  </header>
+  <div id="feed">
+    <div class="item"><span><span class="name">Boot sequence</span><div class="meta">host-01 · 00:00:01</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Auth service started</span><div class="meta">svc-auth · 00:00:03</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Disk usage at 84%</span><div class="meta">host-01 · 00:01:20</div></span><span class="sev warn">WARN</span></div>
+    <div class="item"><span><span class="name">Connection pool drained</span><div class="meta">svc-db · 00:02:05</div></span><span class="sev err">ERROR</span></div>
+    <div class="item"><span><span class="name">Deploy complete</span><div class="meta">ci-runner · 00:03:40</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Cache warmed</span><div class="meta">svc-api · 00:04:11</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Rate limiter hit</span><div class="meta">edge-2 · 00:05:52</div></span><span class="sev warn">WARN</span></div>
+    <div class="item"><span><span class="name">Snapshot taken</span><div class="meta">backup · 00:06:30</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">DNS records synced</span><div class="meta">dns-1 · 00:07:12</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Webhook delivered</span><div class="meta">svc-api · 00:08:44</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Uptime check failed</span><div class="meta">probe-3 · 00:09:03</div></span><span class="sev err">ERROR</span></div>
+    <div class="item"><span><span class="name">Throttle engaged</span><div class="meta">edge-1 · 00:10:26</div></span><span class="sev warn">WARN</span></div>
+    <div class="item"><span><span class="name">Cert renewed</span><div class="meta">proxy · 00:11:15</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Queue drained</span><div class="meta">worker-2 · 00:12:40</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Backfill finished</span><div class="meta">worker-1 · 00:13:02</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Config reloaded</span><div class="meta">svc-api · 00:14:55</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Garbage collection</span><div class="meta">jvm-3 · 00:15:38</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Replica resynced</span><div class="meta">db-2 · 00:16:21</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Secret rotated</span><div class="meta">vault · 00:17:09</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Mirror lag 12s</span><div class="meta">repl-1 · 00:18:47</div></span><span class="sev warn">WARN</span></div>
+    <div class="item"><span><span class="name">Session pruned</span><div class="meta">gateway · 00:19:33</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Index checkpoint</span><div class="meta">search · 00:20:12</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Cold cache miss</span><div class="meta">edge-1 · 00:21:05</div></span><span class="sev warn">WARN</span></div>
+    <div class="item"><span><span class="name">Lease renewed</span><div class="meta">coordinator · 00:22:40</div></span><span class="sev info">INFO</span></div>
+    <div class="item"><span><span class="name">Schema migrated</span><div class="meta">db-1 · 00:23:15</div></span><span class="sev info">INFO</span></div>
+  </div>
+  <script>
+    // READY marker: list is static, page interactive from first paint.
+    const r = document.createElement('div');
+    r.id = 'ready';
+    r.textContent = 'READY';
+    r.style.cssText = 'position:fixed;bottom:4px;right:4px;font-size:14px;color:#999;';
+    document.body.appendChild(r);
+  </script>
+</body>
+</html>

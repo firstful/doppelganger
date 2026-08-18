@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Warehouse Counter</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: #f4f5f7; color: #1a1a2e;
+         display: flex; flex-direction: column; min-height: 100vh; }
+  header { background: #fff; border-bottom: 1px solid #ddd; padding: 12px 24px;
+           display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 18px; font-weight: 600; }
+  header .muted { font-size: 12px; color: #888; }
+  .stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+  #count { font-size: 64px; font-weight: 800; font-variant-numeric: tabular-nums; color: #1a1a2e; }
+  #count span { color: #4361ee; }
+  .actions { display: flex; gap: 12px; }
+  button { font-size: 15px; font-weight: 600; padding: 12px 26px; border-radius: 6px; cursor: pointer;
+           border: 1px solid transparent; }
+  #press { background: #4361ee; color: #fff; }
+  #press:hover { background: #3a56d4; }
+  #reset { background: #fff; color: #444; border-color: #ccd; }
+  #history { font-size: 13px; color: #888; max-width: 420px; text-align: center; line-height: 1.5; }
+  footer { text-align: center; font-size: 11px; color: #999; padding: 12px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Warehouse Counter</h1>
+    <div class="muted">Unit tracking · shift 2</div>
+  </header>
+  <div class="stage">
+    <div id="count">Count: <span>0</span></div>
+    <div class="actions">
+      <button id="press">Add Unit</button>
+      <button id="reset">Reset</button>
+    </div>
+    <div id="history">Press Add Unit to record each box scanned into bay 4.</div>
+  </div>
+  <footer>© 2026 Warehouse Systems Inc.</footer>
+  <script>
+    let n = 0;
+    document.getElementById('press').addEventListener('click', () => {
+      n += 1;
+      document.querySelector('#count span').textContent = n;
+      document.getElementById('history').textContent = 'Recorded unit ' + n + ' at ' + new Date().toLocaleTimeString() + '.';
+    });
+    document.getElementById('reset').addEventListener('click', () => {
+      n = 0;
+      document.querySelector('#count span').textContent = 0;
+      document.getElementById('history').textContent = 'Counter reset.';
+    });
+    const r = document.createElement('div');
+    r.id = 'ready';
+    r.textContent = 'READY';
+    r.style.cssText = 'position:fixed;bottom:4px;right:4px;font-size:14px;color:#999;';
+    document.body.appendChild(r);
+  </script>
+</body>
+</html>

@@ -3,6 +3,7 @@
 import random
 import time
 
+from vision.models import Line
 from .llm import Intent
 
 
@@ -36,18 +37,44 @@ def fuzzy_sim(needle, haystack):
 
 
 def match_target(perception, text, min_sim=0.5):
-    """Best fuzzy line match for `text` in a Perception, or None.
+    """Best matching target rect for `text`, or None.
 
-    Returns the matched line object (has .box with absolute px coords).
+    Returns a pseudo-Line whose box is the TIGHTEST matching window of
+    words: for a nav bar like "Home Settings Reports", asking for
+    "Reports" returns a box around just "Reports", not the whole row —
+    clicking the row center would hit the wrong link. Ties prefer smaller
+    windows.
     """
     if not text:
         return None
-    best, best_sim = None, 0.0
+    best, best_sim, best_n = None, 0.0, 10**9
+    needle_n = len([t for t in text.lower().split() if t])
     for ln in perception.lines:
-        sim = fuzzy_sim(text, ln.text)
-        if sim > best_sim:
-            best_sim = sim
-            best = ln
+        words = sorted(ln.words, key=lambda w: w.box.left)
+        n = len(words)
+        for i in range(n):
+            for j in range(i, n):
+                window = words[i:j + 1]
+                window_text = " ".join(w.text for w in window)
+                sim = fuzzy_sim(text, window_text)
+                # Dilute windows with extra unmatched words ("Sign In" must
+                # not tie with "Sign in to continue": heading vs button).
+                if needle_n:
+                    dil = needle_n / (j - i + 1)
+                    sim *= min(dil, 1.0)
+                # Prefer a window that IS the whole line: a real button/link
+                # is usually a row by itself, while natural-language headings
+                # contain the target words inside longer text. Partial
+                # windows inside a long line get a small penalty.
+                if not (i == 0 and j == n - 1):
+                    sim *= 0.9
+                if sim > best_sim + 1e-9 or (
+                        abs(sim - best_sim) <= 1e-9 and
+                        len(window) < best_n):
+                    pseudo = Line(window[0])
+                    for extra in window[1:]:
+                        pseudo.add(extra)
+                    best_sim, best_n, best = sim, len(window), pseudo
     return best if best_sim >= min_sim else None
 
 

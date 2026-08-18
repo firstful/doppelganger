@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Payments Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; color: #1a1a2e; background: #f4f5f7; }
+  .topbar { background: #1a1a2e; color: #fff; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar h1 { font-size: 20px; font-weight: 600; }
+  .badge { background: #e63946; color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 10px; }
+  .wrap { display: flex; min-height: calc(100vh - 52px); }
+  nav.side { width: 200px; background: #fff; border-right: 1px solid #ddd; padding: 16px 0; }
+  nav.side a { display: block; padding: 12px 22px; font-size: 15px; color: #444; text-decoration: none; cursor: pointer; }
+  nav.side a:hover { background: #eef2ff; }
+  nav.side a.active { background: #dbe4ff; color: #1a1a2e; font-weight: 600; border-left: 3px solid #4361ee; }
+  main { flex: 1; padding: 24px; }
+  h2 { font-size: 22px; margin-bottom: 16px; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .row { display: flex; gap: 16px; margin-bottom: 16px; }
+  .stat { flex: 1; background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 14px 18px; }
+  .stat .num { font-size: 28px; font-weight: 700; color: #4361ee; }
+  .stat .lbl { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #eee; }
+  th { color: #888; font-size: 12px; text-transform: uppercase; }
+  .paid { color: #2a9d8f; font-weight: 600; }
+  .pending { color: #e76f51; font-weight: 600; }
+  #status { margin-top: 12px; font-size: 15px; font-weight: 600; color: #2a9d8f; }
+  small { font-size: 12px; color: #999; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>Payments Dashboard</h1>
+    <span class="badge">LIVE</span>
+  </div>
+  <div class="wrap">
+    <nav class="side">
+      <a data-page="Overview">Overview</a>
+      <a data-page="Transactions">Transactions</a>
+      <a data-page="Payouts">Payouts</a>
+      <a data-page="Settings">Settings</a>
+    </nav>
+    <main>
+      <h2 id="heading">Overview</h2>
+      <div class="row">
+        <div class="stat"><div class="num">$12,480</div><div class="lbl">Total revenue</div></div>
+        <div class="stat"><div class="num">342</div><div class="lbl">Invoices</div></div>
+        <div class="stat"><div class="num">98.2%</div><div class="lbl">Paid on time</div></div>
+      </div>
+      <div class="card">
+        <table>
+          <tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Status</th></tr>
+          <tr><td>INV-2041</td><td>Acme Corp</td><td>$4,200.00</td><td class="paid">Paid</td></tr>
+          <tr><td>INV-2042</td><td>Globex LLC</td><td>$1,850.00</td><td class="pending">Pending</td></tr>
+          <tr><td>INV-2043</td><td>Initech</td><td>$3,110.50</td><td class="paid">Paid</td></tr>
+        </table>
+      </div>
+      <div id="status">Showing the Overview page.</div>
+    </main>
+  </div>
+  <script>
+    const heading = document.getElementById('heading');
+    const status = document.getElementById('status');
+    document.querySelectorAll('nav.side a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.querySelectorAll('nav.side a').forEach(x => x.classList.remove('active'));
+        a.classList.add('active');
+        heading.textContent = a.dataset.page;
+        status.textContent = 'Showing the ' + a.dataset.page + ' page.';
+      });
+    });
+    const r = document.createElement('div');
+    r.id = 'ready';
+    r.textContent = 'READY';
+    r.style.cssText = 'position:fixed;bottom:4px;right:4px;font-size:14px;color:#999;';
+    document.body.appendChild(r);
+  </script>
+</body>
+</html>

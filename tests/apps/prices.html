@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hardware Store</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: #f4f5f7; color: #1a1a2e; }
+  header { background: #1a1a2e; color: #fff; padding: 14px 24px; display: flex;
+           align-items: center; justify-content: space-between; }
+  header h1 { font-size: 18px; font-weight: 600; }
+  .results { padding: 20px 24px; max-width: 1200px; margin: 0 auto; }
+  .grid { display: flex; flex-wrap: wrap; gap: 18px; }
+  .card { background: #fff; border: 1px solid #ddd; border-radius: 8px;
+          width: 340px; overflow: hidden; }
+  .swatch { height: 90px; background: linear-gradient(135deg, #d9c9a3, #b59b6a); }
+  .card .body { padding: 14px 16px; }
+  .card h2 { font-size: 15px; font-weight: 600; line-height: 1.25; margin-bottom: 6px; }
+  .card .model { font-size: 12px; color: #999; }
+  .card .rating { font-size: 12px; color: #888; margin-bottom: 8px; }
+  .price { font-size: 26px; font-weight: 800; color: #111; line-height: 1; }
+  .price .cents { font-size: 15px; vertical-align: super; font-weight: 700; }
+  .bulk { font-size: 13px; color: #444; margin-top: 6px; }
+  .bulk b { color: #c00; }
+  .foot { font-size: 12px; color: #999; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Accent Lumber &amp; Hardware</h1>
+    <span style="font-size:13px;color:#ccc">OSB &amp; paneling</span>
+  </header>
+  <div class="results">
+    <div style="font-size:13px;color:#888;margin-bottom:12px">3 results for "OSB 1/2 inch 4x8"</div>
+    <div class="grid">
+      <div class="card">
+        <div class="swatch"></div>
+        <div class="body">
+          <h2>Blue Ribbon 1/2 in. x 4 ft. x 8 ft. Oriented Strand Board</h2>
+          <div class="model">Model# 660663</div>
+          <div class="rating">(4.5 / 793)</div>
+          <div class="price">$12<span class="cents">98</span></div>
+          <div class="bulk">Buy 58 or more <b>$11.68</b></div>
+          <div class="foot">Pickup: 150 in stock at Canal Winchester</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="swatch"></div>
+        <div class="body">
+          <h2>Plytanium 1/2 in. x 4 ft. x 8 ft. Plywood Sheet</h2>
+          <div class="model">Model# 300985</div>
+          <div class="rating">(4.6 / 1231)</div>
+          <div class="price">$19<span class="cents">97</span></div>
+          <div class="bulk">Buy 12 or more <b>$17.82</b></div>
+          <div class="foot">Pickup: 88 in stock at Canal Winchester</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="swatch"></div>
+        <div class="body">
+          <h2>ProWood 7/16 in. x 4 ft. x 8 ft. OSB Wall Sheathing Panel</h2>
+          <div class="model">Model# 15114</div>
+          <div class="rating">(4.3 / 342)</div>
+          <div class="price">$13<span class="cents">24</span></div>
+          <div class="bulk">Buy 40 or more <b>$11.95</b></div>
+          <div class="foot">Pickup: 42 in stock at Canal Winchester</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // READY marker: static product cards, interactive from paint.
+    const r = document.createElement('div');
+    r.id = 'ready';
+    r.textContent = 'READY';
+    r.style.cssText = 'position:fixed;bottom:4px;right:4px;font-size:14px;color:#999;';
+    document.body.appendChild(r);
+  </script>
+</body>
+</html>

@@ -12,7 +12,9 @@ license = { text = "MIT" }
 [project.optional-dependencies]
 windows = ["pyautogui", "pywin32"]
 mac = ["pyautogui"]
-ocr = ["pytesseract"]
+ocr = ["pytesseract", "scipy>=1.10", "numpy>=1.24"]
+vision = ["torch", "transformers"]
+price = ["scipy>=1.10"]
 
 [tool.setuptools]
 packages = ["desktopx"]

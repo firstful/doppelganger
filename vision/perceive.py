@@ -117,6 +117,15 @@ def perceive(path, with_ml=True, max_ml_targets=8):
     img = load_image(path)
     w, h = img.size
     words = ocr_words(path)
+    # Prices: fix currency amounts that general OCR mangles ($12.98 read as
+    # "$12% 5561"). Re-crops the original image around currency words and
+    # re-reads them at high scale — site-agnostic, keyed on the $ sign.
+    try:
+        from .price import tag_prices
+
+        tag_prices(path, words)
+    except Exception:
+        pass  # price recovery is best-effort; never break perception
     lines = group_lines(words)
     text = " ".join(ln.text for ln in lines)
     p = Perception(path=path, width=w, height=h, text=text,

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Acme Portal Login</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #1a1a2e;
+         display: flex; flex-direction: column; min-height: 100vh; }
+  header.brand { background: #1a1a2e; color: #fff; padding: 16px 28px; font-size: 18px; font-weight: 600;
+                 display: flex; justify-content: space-between; align-items: center; }
+  header.brand small { color: #9a9ab5; font-weight: 400; font-size: 13px; }
+  .center { flex: 1; display: flex; align-items: center; justify-content: center; }
+  form { width: 380px; background: #fff; border: 1px solid #dde; border-radius: 10px; padding: 32px 28px;
+         box-shadow: 0 4px 18px rgba(0,0,0,0.06); }
+  form h2 { font-size: 20px; margin-bottom: 6px; }
+  form p.sub { font-size: 13px; color: #888; margin-bottom: 22px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 5px; }
+  input { width: 100%; font-size: 15px; padding: 10px 12px; border: 1px solid #ccd;
+          border-radius: 6px; background: #fafbfc; }
+  input:focus { outline: 2px solid #4361ee; border-color: #4361ee; background: #fff; }
+  button { margin-top: 22px; font-size: 15px; font-weight: 600; padding: 11px 0; width: 100%;
+           background: #4361ee; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+  button:hover { background: #3a56d4; }
+  .foot { margin-top: 16px; font-size: 12px; color: #888; display: flex; justify-content: space-between; }
+  .foot a { color: #4361ee; text-decoration: none; }
+  #msg { margin-top: 14px; font-size: 15px; font-weight: 600; min-height: 22px; }
+  #msg.ok { color: #2a9d8f; }
+  #msg.err { color: #e63946; }
+  footer { text-align: center; font-size: 12px; color: #999; padding: 14px; }
+</style>
+</head>
+<body>
+  <header class="brand">
+    Acme Portal
+    <small>Secure access · v4.2.1</small>
+  </header>
+  <div class="center">
+    <form id="login">
+      <h2>Sign in to continue</h2>
+      <p class="sub">Use your corporate account to access tools and resources.</p>
+      <label for="user">Email or username</label>
+      <input id="user" name="user" autocomplete="off" placeholder="you@example.com">
+      <label for="pass">Password</label>
+      <input id="pass" name="pass" type="password" autocomplete="off" placeholder="••••••••">
+      <button type="submit">Sign In</button>
+      <div class="foot">
+        <a>Forgot password?</a>
+        <a>Create account</a>
+      </div>
+      <div id="msg"></div>
+    </form>
+  </div>
+  <footer>© 2026 Acme Corp. All rights reserved.</footer>
+  <script>
+    let attempts = 0;
+    document.getElementById('login').addEventListener('submit', (e) => {
+      e.preventDefault();
+      attempts += 1;
+      const u = document.getElementById('user').value || 'guest';
+      const msg = document.getElementById('msg');
+      if (attempts > 1) {
+        msg.className = 'err';
+        msg.textContent = 'Too many attempts. Try again later.';
+      } else {
+        msg.className = 'ok';
+        msg.textContent = 'Welcome, ' + u + '!';
+      }
+    });
+    const r = document.createElement('div');
+    r.id = 'ready';
+    r.textContent = 'READY';
+    r.style.cssText = 'position:fixed;bottom:4px;right:4px;font-size:14px;color:#999;';
+    document.body.appendChild(r);
+  </script>
+</body>
+</html>
